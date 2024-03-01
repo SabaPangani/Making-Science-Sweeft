@@ -4,10 +4,14 @@ export const ImageComponent = ({
   src,
   alt,
   blurHash,
+  w,
+  h,
   ...props
 }: {
   src: string;
   alt: string;
+  w: string;
+  h: string;
   blurHash: string;
 }) => {
   const [imgLoaded, setImgLoaded] = useState(false);
@@ -21,20 +25,22 @@ export const ImageComponent = ({
   }, [src]);
   return (
     <>
-      {!imgLoaded ? (
+      {!imgLoaded && blurHash?.length >= 6 ? (
         <Blurhash
           hash={blurHash}
-          width="100%"
-          height="100%"
+          width={"300px"}
+          height={"300px"}
           resolutionX={32}
           resolutionY={32}
           punch={1}
+          className="rounded-md"
         />
       ) : (
         <img
-          className="w-[300px] h-[300px] rounded-xl cursor-pointer"
+          className={`rounded-xl cursor-pointer`}
+          style={{ width: w, height: h }}
           src={src}
-          alt={alt}
+          alt="Unsplash image"
           loading="lazy"
           {...props}
         />

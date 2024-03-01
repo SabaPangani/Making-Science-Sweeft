@@ -18,7 +18,7 @@ export default function History() {
       <h1 className="text-center text-5xl font-medium my-5">ისტორია</h1>
 
       <ul className="flex flex-col gap-y-2 mx-auto">
-        {history?.map((hist: any, index: number) => (
+        {history?.map((hist: string, index: number) => (
           <li
             className="font-medium text-2xl cursor-pointer"
             key={index}
