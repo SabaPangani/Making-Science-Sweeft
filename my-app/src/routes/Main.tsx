@@ -1,23 +1,16 @@
 import { useEffect, useState } from "react";
 import Search from "../components/Search";
-
+import { ImageComponent } from "../components/ImageComponent";
+import DetailsModal from "../components/DetailsModal";
+import { useModal } from "../store/modalContext";
 const clientId = process.env.CLIENT_ID;
-const Image = ({ src, alt, ...props }: { src: string; alt: string }) => {
-  return (
-    <img
-      className="w-[300px] h-[300px] rounded-xl cursor-pointer"
-      src={src}
-      alt={alt}
-      loading="lazy"
-      {...props}
-    />
-  );
-};
 
 export default function Main() {
   const [images, setImages] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState() as any;
+  const { isModalOpen, setIsModalOpen } = useModal()!;
   useEffect(() => {
     async function fetchData() {
       try {
@@ -47,6 +40,10 @@ export default function Main() {
     fetchData();
   }, []);
 
+  const handleImageSelect = (image: any) => {
+    setSelectedImage(image);
+    setIsModalOpen(true);
+  };
   return (
     <div className=" my-10 px-10">
       <Search
@@ -58,16 +55,38 @@ export default function Main() {
       <ul className="flex flex-row flex-wrap gap-5 items-center">
         {filteredData.length
           ? filteredData.map((image: any) => (
-              <li key={image.id}>
-                <Image src={image.urls.raw} alt={image.slug} />
+              <li
+                key={image.id}
+                onClick={() => {
+                  handleImageSelect(image);
+                }}
+              >
+                <ImageComponent
+                  src={image.urls.raw}
+                  alt={image.slug}
+                  blurHash={image.blur_hash}
+                />
               </li>
             ))
           : images.map((image: any) => (
-              <li key={image.id}>
-                <Image src={image.urls.raw} alt={image.slug} />
+              <li
+                key={image.id}
+                onClick={() => {
+                  handleImageSelect(image);
+                }}
+              >
+                <ImageComponent
+                  src={image.urls.raw}
+                  alt={image.slug}
+                  blurHash={image.blur_hash}
+                />
               </li>
             ))}
       </ul>
+
+      {selectedImage && isModalOpen && (
+        <DetailsModal downloads={20} likes={20} views={20} />
+      )}
     </div>
   );
 }

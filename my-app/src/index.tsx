@@ -6,6 +6,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./routes/Root";
 import Main from "./routes/Main";
 import History from "./routes/History";
+import { ModalProvider } from "./store/modalContext";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -28,7 +29,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ModalProvider>
+      <RouterProvider router={router} />
+    </ModalProvider>
   </React.StrictMode>
 );
 
