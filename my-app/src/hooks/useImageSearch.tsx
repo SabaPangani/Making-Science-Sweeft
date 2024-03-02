@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Image } from "../types/Image";
 
-export function useImageSearch(updateFilteredData: (data: any) => void) {
+export function useImageSearch(updateFilteredData: any) {
   const [text, setText] = useState("");
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -44,7 +44,10 @@ export function useImageSearch(updateFilteredData: (data: any) => void) {
       console.log("fetched");
       if (json.results && json.results.length > 0) {
         if (page > 1) {
-          updateFilteredData((prevData: any) => [...prevData, ...json.results]);
+          updateFilteredData((prevData: Image[]) => [
+            ...prevData,
+            ...json.results,
+          ]);
         } else {
           updateFilteredData(json.results);
         }

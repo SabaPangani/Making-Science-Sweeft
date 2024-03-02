@@ -1,20 +1,14 @@
 import { useImageSearch } from "../hooks/useImageSearch";
 import { Image } from "../types/Image";
-import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
+import { useInfiniteScroll } from "../useInfiniteScroll";
 
 export default function Search({
   updateFilteredData,
 }: {
   updateFilteredData: (images: Image[]) => void;
 }) {
-  const {
-    text,
-    handleChange,
-    handleSearch,
-    isLoading,
-    setPage,
-    hasMore,
-  } = useImageSearch(updateFilteredData);
+  const { text, handleChange, handleSearch, isLoading, setPage, hasMore } =
+    useImageSearch(updateFilteredData);
 
   useInfiniteScroll(() => {
     if (hasMore) {
@@ -24,7 +18,7 @@ export default function Search({
 
   return (
     <div className="flex flex-col items-center gap-y-2 mb-5">
-      <label htmlFor="search" className="font-medium">
+      <label htmlFor="search" className="font-medium text-dark">
         Search images
       </label>
       <div>

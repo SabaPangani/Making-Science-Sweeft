@@ -3,7 +3,7 @@ import HistoryImages from "../components/HistoryImages";
 import { useModal } from "../store/modalContext";
 
 export default function History() {
-  const [history, setHistory] = useState() as any[];
+  const [history, setHistory] = useState([]);
   const [selectedHistory, setSelectedHistory] = useState("");
   const { isHistModalOpen, setIsHistModalOpen } = useModal()!;
   useEffect(() => {
@@ -17,12 +17,14 @@ export default function History() {
   };
   return (
     <div className="flex flex-col">
-      <h1 className="text-center text-5xl font-medium my-5">ისტორია</h1>
+      <h1 className="text-center text-dark text-5xl font-medium my-5">
+        ისტორია
+      </h1>
 
       <ul className="flex flex-col gap-y-2 mx-auto">
-        {history?.map((hist: string, index: number) => (
+        {(history as string[]).map((hist: string, index: number) => (
           <li
-            className="font-medium text-2xl cursor-pointer"
+            className="font-medium text-2xl cursor-pointer text-center border border-1 border-purple pt-1 pb-2 px-3 rounded-md hover:bg-purple-hover text-dark"
             key={index}
             onClick={() => {
               handleHistorySelect(hist);

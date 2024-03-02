@@ -8,7 +8,7 @@ export default function Root() {
         <ul className="flex flex-row gap-x-16">
           <Link to={"home"}>
             <li
-              className={`font-medium border border-purple py-2 px-4 rounded-md cursor-pointer ${
+              className={`font-medium border text-dark border-purple py-2 px-4 rounded-md cursor-pointer ${
                 pathname === "/home" ? "bg-light-purple text-purple" : ""
               } hover:bg-purple-hover transition-all`}
             >
@@ -17,7 +17,7 @@ export default function Root() {
           </Link>
           <Link to={"history"}>
             <li
-              className={`font-medium border border-purple py-2 px-4 rounded-md cursor-pointer ${
+              className={`font-medium border text-dark border-purple py-2 px-4 rounded-md cursor-pointer ${
                 pathname === "/history" ? "bg-light-purple text-purple" : ""
               } hover:bg-purple-hover transition-all`}
             >

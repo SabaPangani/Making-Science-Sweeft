@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import { ImageComponent } from "./ImageComponent";
 import { Image } from "../types/Image";
-import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
+import { useInfiniteScroll } from "../useInfiniteScroll";
 import { useModal } from "../store/modalContext";
+import DetailsModal from "./DetailsModal";
+import ScrollUp from "./ScrollUp";
 
 export default function HistoryImages({ name }: { name: string }) {
   const [images, setImages] = useState<Image[]>([]);
+  const [selectedImage, setSelectedImage] = useState<Image>();
 
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const { setIsHistModalOpen } = useModal()!;
+  const { setIsHistModalOpen, setIsModalOpen, isModalOpen } = useModal()!;
 
   useInfiniteScroll(() => {
     if (hasMore) {
@@ -18,12 +21,21 @@ export default function HistoryImages({ name }: { name: string }) {
     }
   });
 
+  const handleImageSelect = (image: Image) => {
+    setSelectedImage(image);
+    setIsModalOpen(true);
+
+    console.log(isModalOpen, selectedImage);
+  };
   useEffect(() => {
     let cachedData = localStorage.getItem("cache");
     if (cachedData) {
       const parsedData = JSON.parse(cachedData);
       if (parsedData && parsedData[name]) {
-        const twentyImages = parsedData[name].slice((page - 1) * 20, page * 20);
+        const twentyImages = parsedData[name].slice(
+          (page - 1) * 20,
+          page * 20
+        );
         setImages((prevImages) => {
           const newImages = twentyImages.filter(
             (image: Image) =>
@@ -38,24 +50,30 @@ export default function HistoryImages({ name }: { name: string }) {
   return (
     <>
       <div
-        className="bg-black opacity-15 absolute w-screen h-screen top-0"
+        className="bg-black opacity-15 fixed w-screen h-screen top-0"
         onClick={() => {
           setIsHistModalOpen(false);
         }}
       ></div>
-      <div
-        className="fixed top-32 right-[500px] bg-white font-medium rounded-md py-2 px-3 hover:text-red cursor-pointer"
-        onClick={() => {
-          setIsHistModalOpen(false);
-        }}
-      >
-        Close
-      </div>
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-[-500px] h-1/2">
-        <ul className="flex flex-row flex-wrap gap-5 items-center">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-[-500px] h-1/2 flex flex-row-reverse w-full max-w-[1100px]">
+        <div
+          className="bg-white h-[40px] font-medium rounded-md py-2 px-3 hover:text-red cursor-pointer"
+          onClick={() => {
+            setIsHistModalOpen(false);
+          }}
+        >
+          Close
+        </div>
+        <ul className="flex flex-wrap gap-5 items-center justify-center pb-10">
           {images &&
             images.map((image: Image) => (
-              <li key={image.id}>
+              <li
+                key={image.id}
+                onClick={() => {
+                  handleImageSelect(image!);
+                }}
+                className="flex justify-center"
+              >
                 <ImageComponent
                   src={image.urls.regular}
                   alt={image.slug}
@@ -67,6 +85,8 @@ export default function HistoryImages({ name }: { name: string }) {
             ))}
         </ul>
       </div>
+      {selectedImage && isModalOpen && <DetailsModal image={selectedImage} />}
+      <ScrollUp />
     </>
   );
 }
