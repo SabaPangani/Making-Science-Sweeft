@@ -5,9 +5,17 @@ const ModalContext = createContext<ModalContextType | null>(null);
 
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isHistModalOpen, setIsHistModalOpen] = useState(false);
 
   return (
-    <ModalContext.Provider value={{ isModalOpen, setIsModalOpen }}>
+    <ModalContext.Provider
+      value={{
+        isModalOpen,
+        setIsModalOpen,
+        isHistModalOpen,
+        setIsHistModalOpen,
+      }}
+    >
       {children}
     </ModalContext.Provider>
   );

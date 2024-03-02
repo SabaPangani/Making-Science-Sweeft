@@ -1,14 +1,11 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Image } from "../types/Image";
-import { useInfiniteScroll } from "../useInfiniteScroll";
 
 export function useImageSearch(updateFilteredData: (data: any) => void) {
   const [text, setText] = useState("");
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [filteredData, setFilteredData] = useState<Image[]>([]);
-  // const [parsedData, setParsedData] = useState<{ [key: string]: Image[] }>({});
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value.toLocaleLowerCase());
@@ -51,11 +48,17 @@ export function useImageSearch(updateFilteredData: (data: any) => void) {
         } else {
           updateFilteredData(json.results);
         }
-        let cachedData = localStorage.getItem("cache");
-        let _parsedData: { [key: string]: Image[] } = JSON.parse(cachedData!);
 
-        console.log(_parsedData)
-        const updatedCache = { ..._parsedData, [text]: json.results };
+        let cachedData = localStorage.getItem("cache");
+        let _parsedData: { [key: string]: Image[] } = JSON.parse(
+          cachedData || "{}"
+        );
+
+        const updatedCache = { ..._parsedData };
+        updatedCache[text] = updatedCache[text]
+          ? [...updatedCache[text], ...json.results]
+          : json.results;
+
         localStorage.setItem("cache", JSON.stringify(updatedCache));
         setHasMore(true);
       } else {
@@ -78,7 +81,6 @@ export function useImageSearch(updateFilteredData: (data: any) => void) {
     let cachedData = localStorage.getItem("cache");
     if (cachedData) {
       parsedData = JSON.parse(cachedData);
-      //   setParsedData(_parsedData);
       if (cachedData !== null && parsedData[text]) {
         updateFilteredData(parsedData[text]);
         setIsLoading(false);
@@ -101,6 +103,5 @@ export function useImageSearch(updateFilteredData: (data: any) => void) {
     handleChange,
     handleSearch,
     isLoading,
-    filteredData,
   };
 }

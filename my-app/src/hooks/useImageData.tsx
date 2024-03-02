@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Image } from "../types/Image";
 
-export function useImageData(initialText = "", initialPage = 1) {
-  //   const [text, setText] = useState(initialText);
+export function useImageData(initialPage = 1) {
   const [page, setPage] = useState(initialPage);
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState<Image[]>([]);
@@ -14,9 +13,7 @@ export function useImageData(initialText = "", initialPage = 1) {
       try {
         setIsLoading(true);
         const url =
-          //   text.trim() === ""
           `https://api.unsplash.com/photos/?client_id=RlRwYHlj04AIBopR0YCd41asfBz8P4tsCoheyhNJQ-M&per_page=22&page=${page}&order_by=popular&w=600&h=600`;
-        // : `https://api.unsplash.com/search/photos?page=${page}&query=${text}&per_page=22&client_id=RlRwYHlj04AIBopR0YCd41asfBz8P4tsCoheyhNJQ-M`;
         const res = await fetch(url);
         const json = await res.json();
         if (!res.ok) {
@@ -31,16 +28,6 @@ export function useImageData(initialText = "", initialPage = 1) {
         }
         localStorage.setItem("images", JSON.stringify({ images: json }));
 
-        // if (json.results && json.results.length > 0) {
-        //   if (page > 1) {
-        //     setFilteredData((prev) => [...prev, ...json.results]);
-        //   } else {
-        //     setFilteredData(json.results);
-        //   }
-        // } else {
-        //   setFilteredData([]);
-        // }
-
         setHasMore(json.length > 0);
       } catch (error) {
         console.error(error);
@@ -53,8 +40,6 @@ export function useImageData(initialText = "", initialPage = 1) {
   }, [ page]);
 
   return {
-    // text,
-    // setText,
     page,
     setPage,
     isLoading,

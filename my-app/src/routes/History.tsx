@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import HistoryImages from "../components/HistoryImages";
+import { useModal } from "../store/modalContext";
 
 export default function History() {
   const [history, setHistory] = useState() as any[];
   const [selectedHistory, setSelectedHistory] = useState("");
+  const { isHistModalOpen, setIsHistModalOpen } = useModal()!;
   useEffect(() => {
     if (localStorage.getItem("history")) {
       setHistory(JSON.parse(localStorage.getItem("history")!));
@@ -24,13 +26,16 @@ export default function History() {
             key={index}
             onClick={() => {
               handleHistorySelect(hist);
+              setIsHistModalOpen(true);
             }}
           >
             {hist}
           </li>
         ))}
       </ul>
-      {selectedHistory && <HistoryImages name={selectedHistory} />}
+      {selectedHistory && isHistModalOpen && (
+        <HistoryImages name={selectedHistory} />
+      )}
     </div>
   );
 }

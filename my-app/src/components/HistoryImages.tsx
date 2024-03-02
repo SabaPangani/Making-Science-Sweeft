@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ImageComponent } from "./ImageComponent";
 import { Image } from "../types/Image";
-import { useInfiniteScroll } from "../useInfiniteScroll";
-
-interface CachedData {
-  [key: string]: Image[] | undefined;
-}
+import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
+import { useModal } from "../store/modalContext";
 
 export default function HistoryImages({ name }: { name: string }) {
   const [images, setImages] = useState<Image[]>([]);
@@ -13,8 +10,7 @@ export default function HistoryImages({ name }: { name: string }) {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const [left, setLeft] = useState(0);
-  const [right, setRight] = useState(20);
+  const { setIsHistModalOpen } = useModal()!;
 
   useInfiniteScroll(() => {
     if (hasMore) {
@@ -25,21 +21,37 @@ export default function HistoryImages({ name }: { name: string }) {
   useEffect(() => {
     let cachedData = localStorage.getItem("cache");
     if (cachedData) {
-      const parsedData: { [key: string]: Image[] } = JSON.parse(cachedData);
+      const parsedData = JSON.parse(cachedData);
       if (parsedData && parsedData[name]) {
-        const twentyImages = parsedData[name].slice(left, right);
-        setImages((prevImages) => [...prevImages, ...twentyImages]);
-        setLeft(right);
-        setRight((prev) => prev * 2);
-        console.log("Cached");
+        const twentyImages = parsedData[name].slice((page - 1) * 20, page * 20);
+        setImages((prevImages) => {
+          const newImages = twentyImages.filter(
+            (image: Image) =>
+              !prevImages.some((prevImage) => prevImage.id === image.id)
+          );
+          return [...prevImages, ...newImages];
+        });
       }
     }
   }, [page]);
 
   return (
     <>
-      <div className="bg-black opacity-15 absolute w-screen h-screen top-0"></div>
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div
+        className="bg-black opacity-15 absolute w-screen h-screen top-0"
+        onClick={() => {
+          setIsHistModalOpen(false);
+        }}
+      ></div>
+      <div
+        className="fixed top-32 right-[500px] bg-white font-medium rounded-md py-2 px-3 hover:text-red cursor-pointer"
+        onClick={() => {
+          setIsHistModalOpen(false);
+        }}
+      >
+        Close
+      </div>
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-[-500px] h-1/2">
         <ul className="flex flex-row flex-wrap gap-5 items-center">
           {images &&
             images.map((image: Image) => (
