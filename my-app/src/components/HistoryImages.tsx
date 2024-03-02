@@ -13,7 +13,6 @@ export default function HistoryImages({ name }: { name: string }) {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  
   const [left, setLeft] = useState(0);
   const [right, setRight] = useState(20);
 
