@@ -1,1 +1,1 @@
-# Sweeft Making Science React Technical Task
+# Making Science | Sweeft React Technical Task
