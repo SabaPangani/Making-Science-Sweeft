@@ -7,8 +7,12 @@ export default function History() {
   const [selectedHistory, setSelectedHistory] = useState("");
   const { isHistModalOpen, setIsHistModalOpen } = useModal()!;
   useEffect(() => {
-    if (localStorage.getItem("history")) {
-      setHistory(JSON.parse(localStorage.getItem("history")!));
+    if (sessionStorage.getItem("history")) {
+      setHistory(
+        JSON.parse(sessionStorage.getItem("history")!).filter(
+          (history: string) => history !== ""
+        )
+      );
     }
   }, []);
 

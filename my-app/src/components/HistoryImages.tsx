@@ -24,11 +24,9 @@ export default function HistoryImages({ name }: { name: string }) {
   const handleImageSelect = (image: Image) => {
     setSelectedImage(image);
     setIsModalOpen(true);
-
-    console.log(isModalOpen, selectedImage);
   };
   useEffect(() => {
-    let cachedData = localStorage.getItem("cache");
+    let cachedData = sessionStorage.getItem("cache");
     if (cachedData) {
       const parsedData = JSON.parse(cachedData);
       if (parsedData && parsedData[name]) {

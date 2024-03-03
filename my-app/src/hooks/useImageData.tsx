@@ -9,7 +9,6 @@ export function useImageData(initialPage = 1) {
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    console.log(process.env.REACT_APP_CLIENT_ID)
     async function fetchData() {
       try {
         setIsLoading(true);

@@ -1,4 +1,3 @@
-import React from "react";
 import ArrowUp from "./svgs/ArrowUp";
 
 export default function ScrollUp() {

@@ -15,7 +15,7 @@ export function useImageSearch(updateFilteredData: any) {
   };
 
   const handleHistory = () => {
-    let history: string | string[] = localStorage.getItem("history")!;
+    let history: string | string[] = sessionStorage.getItem("history")!;
     if (history) {
       history = JSON.parse(history);
     } else {
@@ -24,7 +24,7 @@ export function useImageSearch(updateFilteredData: any) {
 
     (history as string[]).push(text);
 
-    localStorage.setItem("history", JSON.stringify(history));
+    sessionStorage.setItem("history", JSON.stringify(history));
   };
 
   const fetchData = async () => {
@@ -36,7 +36,7 @@ export function useImageSearch(updateFilteredData: any) {
       }
 
       const res = await fetch(
-        `https://api.unsplash.com/search/photos?page=${page.page}&query=${text}&per_page=22&client_id=${process.env.REACT_APP_CLIENT_ID}`
+        `https://api.unsplash.com/search/photos?page=${page.page}&query=${text}&per_page=20&client_id=${process.env.REACT_APP_CLIENT_ID}`
       );
       const json = await res.json();
 
@@ -44,7 +44,6 @@ export function useImageSearch(updateFilteredData: any) {
         throw new Error("Failed to search images " + JSON.stringify(json));
       }
 
-      console.log("fetched");
       if (json.results && json.results.length > 0) {
         if (page.page > 1) {
           updateFilteredData((prevData: Image[]) => [
@@ -55,7 +54,7 @@ export function useImageSearch(updateFilteredData: any) {
           updateFilteredData(json.results);
         }
 
-        let cachedData = localStorage.getItem("cache");
+        let cachedData = sessionStorage.getItem("cache");
         let _parsedData: {
           [key: string]: { images: Image[]; nextPage: number };
         } = JSON.parse(cachedData || "{}");
@@ -68,7 +67,7 @@ export function useImageSearch(updateFilteredData: any) {
           nextPage: page.page + 1,
         };
 
-        localStorage.setItem("cache", JSON.stringify(updatedCache));
+        sessionStorage.setItem("cache", JSON.stringify(updatedCache));
         setHasMore(true);
       } else {
         setHasMore(false);
@@ -87,11 +86,10 @@ export function useImageSearch(updateFilteredData: any) {
 
     let parsedData: { [key: string]: { images: Image[]; nextPage: number } } =
       {};
-    let cachedData = localStorage.getItem("cache");
+    let cachedData = sessionStorage.getItem("cache");
     if (cachedData) {
       parsedData = JSON.parse(cachedData);
       if (cachedData !== null && parsedData[text]) {
-        console.log("Cached");
         updateFilteredData(parsedData[text].images);
         setPage({ page: parsedData[text].nextPage, fetch: "cache" });
         setIsLoading(false);

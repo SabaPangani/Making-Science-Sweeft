@@ -13,4 +13,5 @@ type urls = {
   raw: string;
   regular: string;
   small: string;
+  small_s3: string;
 };

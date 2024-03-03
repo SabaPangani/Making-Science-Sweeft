@@ -19,14 +19,14 @@ export default function Search({
   return (
     <div className="flex flex-col items-center gap-y-2 mb-5">
       <label htmlFor="search" className="font-medium text-dark">
-        Search images
+        მოძებნე ფოტოები
       </label>
       <div>
         <input
           className="w-[190px] px-4 py-2 rounded-md border-2 bg-[#FFF] border-zinc-300 focus:shadow-[0px_0px_32px_0px_rgba(99,60,255,0.25)] focus:border-purple outline-none transition-all"
           type="search"
           id="search"
-          placeholder="e.g orange leaf trees"
+          placeholder="მაგ. orange leaf trees"
           value={text}
           onChange={handleChange}
         />
@@ -35,7 +35,7 @@ export default function Search({
           onClick={handleSearch}
           disabled={isLoading}
         >
-          {isLoading ? "Searching..." : "Search"}
+          {isLoading ? "Searching..." : "ძებნა"}
         </button>
       </div>
     </div>

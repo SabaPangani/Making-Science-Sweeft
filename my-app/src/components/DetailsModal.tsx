@@ -26,7 +26,7 @@ export default function DetailsModal({ image }: { image: Image }) {
           setImageStats(JSON.parse(cachedData));
         } else {
           const res = await fetch(
-            `https://api.unsplash.com/photos/${image.id}/statistics/?client_id=${process.env.CLIENT_ID}`
+            `https://api.unsplash.com/photos/${image.id}/statistics/?client_id=${process.env.REACT_APP_CLIENT_ID}`
           );
 
           if (!res.ok) {
@@ -72,16 +72,16 @@ export default function DetailsModal({ image }: { image: Image }) {
         <ul className="flex flex-row w-full items-center justify-center gap-x-3 ">
           <li className="font-medium flex flex-row items-center gap-x-2">
             <DownloadSvg />{" "}
-            <span className="max-[425px]:hidden">Downloads:</span>{" "}
+            <span className="max-[425px]:hidden">გადმოწერები:</span>{" "}
             {isLoading ? <span>Loading...</span> : imageStats?.downloads.total}
           </li>
           <li className="font-medium flex flex-row items-center gap-x-2">
-            <LikeSvg /> <span className="max-[425px]:hidden">Likes:</span>{" "}
+            <LikeSvg /> <span className="max-[425px]:hidden">მოწონებები:</span>{" "}
             {isLoading ? <span>Loading...</span> : image.likes}{" "}
             {/* Used image.likes because api was fetching value of likes as 0 */}
           </li>
           <li className="font-medium flex flex-row items-center gap-x-2">
-            <ViewSvg /> <span className="max-[425px]:hidden">Views:</span>{" "}
+            <ViewSvg /> <span className="max-[425px]:hidden">ნახვები:</span>{" "}
             {isLoading ? <span>Loading...</span> : imageStats?.views.total}
           </li>
         </ul>

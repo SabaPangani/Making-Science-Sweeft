@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Search from "../components/Search";
 import { ImageComponent } from "../components/ImageComponent";
 import DetailsModal from "../components/DetailsModal";
@@ -45,7 +45,7 @@ export default function Main() {
                 }}
               >
                 <ImageComponent
-                  src={image?.urls.regular}
+                  src={image?.urls.small_s3}
                   alt={image?.slug}
                   blurHash={image?.blur_hash}
                   w="300px"
@@ -63,7 +63,7 @@ export default function Main() {
                 }}
               >
                 <ImageComponent
-                  src={image?.urls.regular}
+                  src={image?.urls.small_s3}
                   alt={image?.slug}
                   blurHash={image?.blur_hash}
                   w="300px"
