@@ -12,11 +12,13 @@ export function useImageData(initialPage = 1) {
     async function fetchData() {
       try {
         setIsLoading(true);
-        const url = `https://api.unsplash.com/photos/?client_id=RlRwYHlj04AIBopR0YCd41asfBz8P4tsCoheyhNJQ-M&per_page=22&page=${page}&order_by=popular&w=600&h=600`;
-        const res = await fetch(url);
+        const res = await fetch(
+          `https://api.unsplash.com/photos/?client_id=RlRwYHlj04AIBopR0YCd41asfBz8P4tsCoheyhNJQ-M&per_page=22&page=${page}&order_by=popular`
+        );
         const json = await res.json();
+
         if (!res.ok) {
-          throw new Error("Failed to fetch images " + JSON.stringify(json));
+          throw new Error("Failed to fetch images ");
         }
 
         if (page > 1) {

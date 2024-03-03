@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ImageComponent } from "./ImageComponent";
 import { Image } from "../types/Image";
-import { useInfiniteScroll } from "../useInfiniteScroll";
+import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
 import { useModal } from "../store/modalContext";
 import DetailsModal from "./DetailsModal";
 import ScrollUp from "./ScrollUp";
@@ -32,7 +32,7 @@ export default function HistoryImages({ name }: { name: string }) {
     if (cachedData) {
       const parsedData = JSON.parse(cachedData);
       if (parsedData && parsedData[name]) {
-        const twentyImages = parsedData[name].slice(
+        const twentyImages = parsedData[name].images.slice(
           (page - 1) * 20,
           page * 20
         );

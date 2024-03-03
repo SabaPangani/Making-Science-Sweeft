@@ -5,7 +5,7 @@ import DetailsModal from "../components/DetailsModal";
 import { useModal } from "../store/modalContext";
 import { Image as ImageType } from "../types/Image";
 import { useImageData } from "../hooks/useImageData";
-import { useInfiniteScroll } from "../useInfiniteScroll";
+import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
 import ScrollUp from "../components/ScrollUp";
 
 export default function Main() {
@@ -35,6 +35,7 @@ export default function Main() {
         <Search updateFilteredData={updateFilteredData} />
 
         <ul className="flex flex-row flex-wrap gap-5 gap-y-10 items-center justify-center">
+          {/* I used ternary operator at first but then it gave me weird data render flickers so i used this approach */}
           {filteredData.length >= 1 &&
             filteredData.map((image: ImageType) => (
               <li
@@ -71,7 +72,7 @@ export default function Main() {
               </li>
             ))}
 
-            {isLoading && <h1>Loading...</h1>}
+          {isLoading && <h1>Loading...</h1>}
         </ul>
 
         {selectedImage && isModalOpen && <DetailsModal image={selectedImage} />}

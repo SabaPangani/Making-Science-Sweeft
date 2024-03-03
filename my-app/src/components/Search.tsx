@@ -1,6 +1,6 @@
 import { useImageSearch } from "../hooks/useImageSearch";
 import { Image } from "../types/Image";
-import { useInfiniteScroll } from "../useInfiniteScroll";
+import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
 
 export default function Search({
   updateFilteredData,
@@ -12,7 +12,7 @@ export default function Search({
 
   useInfiniteScroll(() => {
     if (hasMore) {
-      setPage((prevPage) => prevPage + 1);
+      setPage((prevPage) => ({ page: prevPage.page + 1, fetch: "get" }));
     }
   });
 
