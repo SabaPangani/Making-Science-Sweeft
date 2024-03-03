@@ -34,7 +34,7 @@ export default function Main() {
       <div className="my-10 px-10 max-[360px]:px-5">
         <Search updateFilteredData={updateFilteredData} />
 
-        <ul className="flex flex-row flex-wrap gap-5 gap-y-10 items-center justify-center">
+        <ul className="flex flex-row flex-wrap gap-5 gap-y-16 items-center justify-center">
           {/* I used ternary operator at first but then it gave me weird data render flickers so i used this approach */}
           {filteredData.length >= 1 &&
             filteredData.map((image: ImageType) => (

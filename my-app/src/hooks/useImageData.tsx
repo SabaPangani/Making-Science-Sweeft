@@ -13,7 +13,7 @@ export function useImageData(initialPage = 1) {
       try {
         setIsLoading(true);
         const res = await fetch(
-          `https://api.unsplash.com/photos/?client_id=RlRwYHlj04AIBopR0YCd41asfBz8P4tsCoheyhNJQ-M&per_page=22&page=${page}&order_by=popular`
+          `https://api.unsplash.com/photos/?client_id=RlRwYHlj04AIBopR0YCd41asfBz8P4tsCoheyhNJQ-M&per_page=20&page=${page}&order_by=popular`
         );
         const json = await res.json();
 
