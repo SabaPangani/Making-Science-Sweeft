@@ -36,7 +36,7 @@ export function useImageSearch(updateFilteredData: any) {
       }
 
       const res = await fetch(
-        `https://api.unsplash.com/search/photos?page=${page.page}&query=${text}&per_page=22&client_id=RlRwYHlj04AIBopR0YCd41asfBz8P4tsCoheyhNJQ-M`
+        `https://api.unsplash.com/search/photos?page=${page.page}&query=${text}&per_page=22&client_id=${process.env.REACT_APP_CLIENT_ID}`
       );
       const json = await res.json();
 

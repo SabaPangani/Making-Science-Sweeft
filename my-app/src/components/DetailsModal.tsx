@@ -26,7 +26,7 @@ export default function DetailsModal({ image }: { image: Image }) {
           setImageStats(JSON.parse(cachedData));
         } else {
           const res = await fetch(
-            `https://api.unsplash.com/photos/${image.id}/statistics/?client_id=RlRwYHlj04AIBopR0YCd41asfBz8P4tsCoheyhNJQ-M`
+            `https://api.unsplash.com/photos/${image.id}/statistics/?client_id=${process.env.CLIENT_ID}`
           );
 
           if (!res.ok) {
